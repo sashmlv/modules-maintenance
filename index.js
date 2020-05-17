@@ -48,10 +48,19 @@ class Maintenance {
          throw e;
       };
    };
+
+	/**
+	 * Get type of variable
+	 * @param { * } - any value
+	 * @return { string } class
+	 **/
+	getClass( obj ) {
+
+		return {}.toString.call( obj ).slice( 8, -1 ).toLowerCase();
+	}
 }
 
 const maintenance = new Maintenance();
-
 
 maintenance.log.red    = ( ...args ) => maintenance.log( ...args, ch.bold.redBright );
 maintenance.log.yellow = ( ...args ) => maintenance.log( ...args, ch.bold.yellowBright );
