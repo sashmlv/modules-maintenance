@@ -52,28 +52,10 @@ class Maintenance {
 
 const maintenance = new Maintenance();
 
-maintenance.log.red = function( ...args ) {
 
-   args = args.map( v => ch.bold.redBright( v ));
-   maintenance.log( ...args );
-};
-
-maintenance.log.yellow = function( ...args ) {
-
-   args = args.map( v => ch.bold.yellowBright( v ));
-   maintenance.log( ...args );
-};
-
-maintenance.log.blue = function( ...args ) {
-
-   args = args.map( v => ch.bold.blueBright( v ));
-   maintenance.log( ...args );
-};
-
-maintenance.log.greenB = function( ...args ) {
-
-   args = args.map( v => ch.bold.bgBlack.greenBright( v ));
-   maintenance.log( ...args );
-};
+maintenance.log.red    = ( ...args ) => maintenance.log( ...args, ch.bold.redBright );
+maintenance.log.yellow = ( ...args ) => maintenance.log( ...args, ch.bold.yellowBright );
+maintenance.log.blue   = ( ...args ) => maintenance.log( ...args, ch.bold.blueBright );
+maintenance.log.greenB = ( ...args ) => maintenance.log( ...args, ch.bold.bgBlack.greenBright );
 
 module.exports = maintenance;
