@@ -47,7 +47,7 @@ class Maintenance {
     * @param  {boolean} tryFix
     * @return {boolean} Return file exists
     **/
-   async exists( filePath ) {
+   async exists( filePath, tryFix ) {
 
       try {
 
