@@ -1,9 +1,10 @@
 'use strict';
 
 const ch = require( 'chalk' ),
-      fs = require( 'fs' ),
-      util = require( 'util' ),
-      access = util.promisify( fs.access );
+   fs = require( 'fs' ),
+   util = require( 'util' ),
+   path = require( 'path' ),
+   access = util.promisify( fs.access );
 
 /**
  * Constructor
@@ -11,28 +12,49 @@ const ch = require( 'chalk' ),
  **/
 class Maintenance {
 
-  /**
-   * Log
-   * @param  {*}
-   * @return {undefined}
-   **/
+	/**
+	 * Get type of variable
+	 * @param { * } - any value
+	 * @return { string } class
+	 **/
+	getClass( obj ) {
+
+		return {}.toString.call( obj ).slice( 8, -1 ).toLowerCase();
+	}
+
+   /**
+    * Log, mainly for development
+    * @param  {string} str
+    * @param  {function} clb
+    * @return {undefined}
+    **/
    log( str, ...args ) {
+
       const clb = typeof args[ args.length - 1 ] === 'function' ? args.pop() : undefined;
+
       if( clb ) {
+
          args.length && ( args = args.map( v => clb( v )));
          ! args.length && ( str = clb( str ));
       }
+
       return console.log( str, ...args );
    };
 
-  /**
-   * Check file exists
-   * @param  {string} filePath
-   * @return {boolean} Return file exists
-   **/
+   /**
+    * Check file exists
+    * @param  {string} filePath
+    * @param  {boolean} tryFix
+    * @return {boolean} Return file exists
+    **/
    async exists( filePath ) {
 
       try {
+
+         if( tryFix ){
+
+            filePath = path.resolve( filePath );
+         }
 
          await access( filePath, fs.constants.F_OK );
 
@@ -48,17 +70,7 @@ class Maintenance {
          throw e;
       };
    };
-
-	/**
-	 * Get type of variable
-	 * @param { * } - any value
-	 * @return { string } class
-	 **/
-	getClass( obj ) {
-
-		return {}.toString.call( obj ).slice( 8, -1 ).toLowerCase();
-	}
-}
+};
 
 const maintenance = new Maintenance();
 
